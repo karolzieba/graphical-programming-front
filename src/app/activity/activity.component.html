@@ -1,0 +1,54 @@
+<mat-grid-list cols="5" rowHeight="85%">
+    <mat-grid-tile [colspan]="1" style="overflow-y: auto;">
+        <div class="vertical-layout">
+            <h1 class="center-position">Operacje</h1>
+            <button (click)="appendFirstElement()" mat-raised-button>Stan początkowy
+                <mat-icon>circle</mat-icon>
+            </button>
+            <button (click)="showConnectionDialog()" mat-raised-button>Łączenie
+                <mat-icon>arrow_downward</mat-icon>
+            </button>
+            <button (click)="showActionDialog()" mat-raised-button>Akcja
+                <mat-icon>crop_16_9</mat-icon>
+            </button>
+            <button (click)="appendConditionElement()" mat-raised-button>Warunek
+                <mat-icon class="button-condition-icon">crop_square</mat-icon>
+            </button>
+            <button (click)="clearElements()" mat-raised-button>Opis łączenia
+                <mat-icon>abc</mat-icon>
+            </button>
+            <button (click)="appendLastElement()" mat-raised-button>Stan końcowy
+                <mat-icon>radio_button_checked</mat-icon>
+            </button>
+            <button (click)="clearElements()" mat-raised-button>Wyczyść
+                <mat-icon>clear_all</mat-icon>
+            </button>
+            <div *ngIf="displayConnectionDialog">
+                <br/><br/>
+                <mat-selection-list #elementsList>
+                    @for (element of elements; track element) {
+                      <mat-list-option *ngIf="element.visible" value="{{ element.id }}">{{ element.label }}</mat-list-option>
+                    }
+                </mat-selection-list>
+                <button mat-raised-button (click)="appendConnection(elementsList.selectedOptions.selected)">Dodaj</button>
+            </div>
+            <div *ngIf="displayActionDialog">
+                <br/><br/>
+                <form (ngSubmit)="appendActionElement(actionFormText)">
+                    <mat-form-field>
+                      <mat-label>Treść akcji</mat-label>
+                      <input type="text" name="actionFormText" [(ngModel)]="actionFormText" matInput>
+                    </mat-form-field>
+                    <br/>
+                    <button type="submit" mat-raised-button>Dodaj</button>
+                </form>
+            </div>
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="4" style="overflow-y: auto; max-height: calc(100vh - 20px);">
+        <div class="vertical-layout">
+            <h1 class="center-position">Podgląd</h1>
+            <div id="diagram"></div>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>

@@ -1,0 +1,40 @@
+.vertical-layout {
+    display: flex;
+    flex-direction: column;
+}
+
+.center-position {
+    display: flex; 
+    justify-content: center;
+}
+
+.button-transparent {
+    background-color: transparent;
+    border: none;
+}
+
+.button-condition-icon {
+    transform: rotate(45deg);
+}
+
+.circle-icon-scale {
+    margin-top: 31px;
+    transform: scale(2);
+}
+
+.arrow-icon-scale {
+    margin-top: 32px;
+    transform: scaleX(3) scaleY(5);
+}
+
+.action-icon-scale {
+    margin-top: 40px;
+    margin-bottom: 5px;
+    transform: scaleX(10) scaleY(5);
+}
+
+.condition-icon {
+    margin-top: 62px;
+    margin-bottom: 30px;
+    transform: scale(5) rotate(45deg);
+}
