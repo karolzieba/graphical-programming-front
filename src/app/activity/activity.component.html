@@ -8,26 +8,33 @@
             <button (click)="showConnectionDialog()" mat-raised-button>Łączenie
                 <mat-icon>arrow_downward</mat-icon>
             </button>
+            <button (click)="showConnectionsDialog(false)" mat-raised-button>Komentarz łączenia
+                <mat-icon>abc</mat-icon>
+            </button>
             <button (click)="showActionDialog()" mat-raised-button>Akcja
                 <mat-icon>crop_16_9</mat-icon>
             </button>
             <button (click)="appendConditionElement()" mat-raised-button>Warunek
                 <mat-icon class="button-condition-icon">crop_square</mat-icon>
             </button>
-            <button (click)="clearElements()" mat-raised-button>Opis łączenia
-                <mat-icon>abc</mat-icon>
-            </button>
             <button (click)="appendLastElement()" mat-raised-button>Stan końcowy
                 <mat-icon>radio_button_checked</mat-icon>
             </button>
-            <button (click)="clearElements()" mat-raised-button>Wyczyść
+            <br/><br/>
+            <button (click)="showElementsDialog()" mat-raised-button>Lista elementów
+                <mat-icon>list</mat-icon>
+            </button>
+            <button (click)="showConnectionsDialog(true)" mat-raised-button>Lista łączeń
+                <mat-icon>list</mat-icon>
+            </button>
+            <button (click)="clearElements()" mat-raised-button>Wyczyść wszystko
                 <mat-icon>clear_all</mat-icon>
             </button>
             <div *ngIf="displayConnectionDialog">
                 <br/><br/>
                 <mat-selection-list #elementsList>
                     @for (element of elements; track element) {
-                      <mat-list-option *ngIf="element.visible" value="{{ element.id }}">{{ element.label }}</mat-list-option>
+                      <mat-list-option *ngIf="element.visible" value="{{ element.id }}">{{ element.type === "first" ? "Początek" : element.type === "last" ? "Koniec" : element.label }}</mat-list-option>
                     }
                 </mat-selection-list>
                 <button mat-raised-button (click)="appendConnection(elementsList.selectedOptions.selected)">Dodaj</button>
@@ -42,6 +49,35 @@
                     <br/>
                     <button type="submit" mat-raised-button>Dodaj</button>
                 </form>
+            </div>
+            <div *ngIf="displayElementsDialog">
+                <br/><br/>
+                <div *ngFor="let element of elements">
+                    <button *ngIf="element.visible" (click)="removeElement(element)" mat-raised-button>
+                        {{ element.type === "first" ? "Początek" : element.type === "last" ? "Koniec" : element.label }}
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="displayConnectionsDialog">
+                <br/><br/>
+                <div *ngFor="let connection of connections">
+                    <button (click)="connectionRemoveOnClick ? removeConnection(connection) : appendConnectionCommentElement(connection)" mat-raised-button>
+                        {{ elements[connection.src].type === "first" ? "Początek" : elements[connection.src].type === "last" ? "Koniec" : elements[connection.src].label}} 
+                        --> 
+                        {{ elements[connection.trg].type === "first" ? "Początek" : elements[connection.trg].type === "last" ? "Koniec" : elements[connection.trg].label}}
+                    </button>
+                </div>
+                <div *ngIf="displayConnectionCommentDialog">
+                    <br/><br/>
+                    <form (ngSubmit)="appendConnectionCommentElement(connectionCommentFormText)">
+                        <mat-form-field>
+                        <mat-label>Treść komentarza łączenia</mat-label>
+                        <input type="text" name="connectionCommentFormText" [(ngModel)]="connectionCommentFormText" matInput>
+                        </mat-form-field>
+                        <br/>
+                        <button type="submit" mat-raised-button>Dodaj</button>
+                    </form>
+                </div>
             </div>
         </div>
     </mat-grid-tile>
