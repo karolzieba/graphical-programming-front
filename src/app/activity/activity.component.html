@@ -34,7 +34,10 @@
                 <br/><br/>
                 <mat-selection-list #elementsList>
                     @for (element of elements; track element) {
-                      <mat-list-option *ngIf="element.visible" value="{{ element.id }}">{{ element.type === "first" ? "Początek" : element.type === "last" ? "Koniec" : element.label }}</mat-list-option>
+                      <mat-list-option *ngIf="element.visible" value="{{ element.id }}">{{ element.type === "first" ? "Początek" 
+                        : element.type === "last" ? "Koniec" 
+                        : element.type === "condition" ? "Warunek" + " " + element.label.split("e")[1]
+                        : element.label }}</mat-list-option>
                     }
                 </mat-selection-list>
                 <button mat-raised-button (click)="appendConnection(elementsList.selectedOptions.selected)">Dodaj</button>
@@ -54,7 +57,10 @@
                 <br/><br/>
                 <div *ngFor="let element of elements">
                     <button *ngIf="element.visible" (click)="removeElement(element)" mat-raised-button>
-                        {{ element.type === "first" ? "Początek" : element.type === "last" ? "Koniec" : element.label }}
+                        {{ element.type === "first" ? "Początek" 
+                        : element.type === "last" ? "Koniec" 
+                        : element.type === "condition" ? "Warunek" + " " + element.label.split("e")[1]
+                        : element.label }}
                     </button>
                 </div>
             </div>
@@ -62,9 +68,15 @@
                 <br/><br/>
                 <div *ngFor="let connection of connections">
                     <button (click)="connectionRemoveOnClick ? removeConnection(connection) : appendConnectionCommentElement(connection)" mat-raised-button>
-                        {{ elements[connection.src].type === "first" ? "Początek" : elements[connection.src].type === "last" ? "Koniec" : elements[connection.src].label}} 
+                        {{ elements[connection.src].type === "first" ? "Początek" 
+                        : elements[connection.src].type === "last" ? "Koniec" 
+                        : elements[connection.src].type === "condition" ? "Warunek" + " " + elements[connection.src].label.split("e")[1]
+                        : elements[connection.src].label}} 
                         --> 
-                        {{ elements[connection.trg].type === "first" ? "Początek" : elements[connection.trg].type === "last" ? "Koniec" : elements[connection.trg].label}}
+                        {{ elements[connection.trg].type === "first" ? "Początek" 
+                        : elements[connection.trg].type === "last" ? "Koniec" 
+                        : elements[connection.trg].type === "condition" ? "Warunek" + " " + elements[connection.trg].label.split("e")[1]
+                        : elements[connection.trg].label}}
                     </button>
                 </div>
                 <div *ngIf="displayConnectionCommentDialog">

@@ -23,7 +23,7 @@ declare var mermaid: any;
 export class ActivityComponent {
   idElement: number = 0;
   idConnection: number = 0;
-  numberOfConditions: number = 0;
+  numberOfConditions: number = 1;
   elements: { id: number, type: string, label: string, visible: boolean }[] = [];
   connections: { id: number, src: number, trg: number }[] = [];
   actionFormText: string = "";
@@ -38,7 +38,7 @@ export class ActivityComponent {
 
   ngAfterViewInit(): void {
     mermaid.initialize({
-      theme: 'forest'
+      theme: "neutral"
     })
     mermaid.init();
   }
@@ -178,7 +178,7 @@ export class ActivityComponent {
     this.elements = [];
     this.connections = [];
     this.displayConnectionDialog = false;
-    this.refreshDiagramView();
+    window.location.reload();
   }
 
   removeElement(element: any) {
