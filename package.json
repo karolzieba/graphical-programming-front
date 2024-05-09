@@ -1,0 +1,19 @@
+{
+  "name": "graphical-programming-front",
+  "version": "10.5.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karolzieba/graphical-programming-front.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karolzieba/graphical-programming-front/issues"
+  },
+  "homepage": "https://github.com/karolzieba/graphical-programming-front#readme"
+}
