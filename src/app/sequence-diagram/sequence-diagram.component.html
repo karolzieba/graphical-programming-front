@@ -1,1 +1,23 @@
-<p>sequence-diagram works!</p>
+<mat-grid-list cols="5" rowHeight="85%">
+  <mat-grid-tile [colspan]="1" style="overflow-y: auto;">
+    <div class="vertical-layout">
+      <h1 class="center-position">Sequence Diagram</h1>
+      <button (click)="addLifeline()" mat-raised-button>Add Lifeline
+        <mat-icon>person</mat-icon>
+      </button>
+      <button (click)="addMessage()" mat-raised-button>Add Message
+        <mat-icon>message</mat-icon>
+      </button>
+      <button (click)="clearDiagram()" mat-raised-button>Clear Diagram
+        <mat-icon>clear_all</mat-icon>
+      </button>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="4" style="overflow-y: auto; max-height: calc(100vh - 20px);">
+    <div class="vertical-layout">
+      <h1 class="center-position">Diagram Preview</h1>
+      <div id="sequence-diagram"></div>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+>

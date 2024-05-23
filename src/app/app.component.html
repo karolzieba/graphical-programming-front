@@ -1,24 +1,8 @@
 <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="center-position">
-  <div class="container">
-    <!-- Sidebar with diagram options -->
-    <div class="sidebar">
-      <mat-button-toggle-group name="diagramType" aria-label="Diagram Type" class="center-position">
-        <mat-button-toggle (click)="selectedDiagram = 'class'" value="class">Diagram klas</mat-button-toggle>
-        <mat-button-toggle (click)="selectedDiagram = 'activity'" value="activity">Diagram aktywności</mat-button-toggle>
-        <mat-button-toggle (click)="selectedDiagram = 'sequence'" value="sequence">Diagram sekwencji</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-  
-    <div class="main-content">
-      <div *ngIf="selectedDiagram === 'class'">
-      </div>
-      <div *ngIf="selectedDiagram === 'activity'">
-        <app-activity></app-activity>
-      </div>
-      <div *ngIf="selectedDiagram === 'sequence'">
-        <app-sequence-diagram></app-sequence-diagram>
-      </div>
-    </div>
-  </div>
+  <mat-button-toggle value="bold">Diagram klas</mat-button-toggle>
+  <mat-button-toggle value="italic">Diagram aktywności</mat-button-toggle>
+  <mat-button-toggle value="underline">Diagram sekwencji</mat-button-toggle>
 </mat-button-toggle-group>
+<app-activity></app-activity>
+<app-sequence-diagram></app-sequence-diagram>
 <router-outlet />
