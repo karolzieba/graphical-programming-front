@@ -8,6 +8,7 @@ import { MatListModule } from '@angular/material/list';
 
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import axios from 'axios';
 
 declare var mermaid: any;
 
@@ -35,6 +36,7 @@ export class ActivityComponent {
   displayConnectionsDialog: boolean = false;
   connectionRemoveOnClick: boolean = false;
   connectionCommentTarget: number = -1;
+  code: string = "";
 
   ngAfterViewInit(): void {
     mermaid.initialize({
@@ -192,5 +194,22 @@ export class ActivityComponent {
     this.elements[connection.trg].label = this.elements[connection.trg].label.split(" : ")[0];
     this.connections = this.connections.filter(connectionFromArray => connectionFromArray.id !== connection.id);
     this.refreshDiagramView();
+  }
+
+  sendElements() {
+    if (this.elements.some(element => element.type === "first") && this.elements.some(element => element.type === "last")) {
+        axios.post('/api/activity', {
+          elements: this.elements,
+          connections: this.connections
+        })
+        .then(response => {
+          this.code = response.data;
+        })
+        .catch(error => {
+          alert("Błąd podczas generowania kodu.");
+        });
+    } else {
+      alert("Brak początkowego lub końcowego elementu.");
+    }
   }
 }

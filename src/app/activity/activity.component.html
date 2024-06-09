@@ -20,7 +20,6 @@
             <button (click)="appendLastElement()" mat-raised-button>Stan końcowy
                 <mat-icon>radio_button_checked</mat-icon>
             </button>
-            <br/><br/>
             <button (click)="showElementsDialog()" mat-raised-button>Lista elementów
                 <mat-icon>list</mat-icon>
             </button>
@@ -29,6 +28,9 @@
             </button>
             <button (click)="clearElements()" mat-raised-button>Wyczyść wszystko
                 <mat-icon>clear_all</mat-icon>
+            </button>
+            <button (click)="sendElements()" mat-raised-button>Wygeneruj kod
+                <mat-icon>send</mat-icon>
             </button>
             <div *ngIf="displayConnectionDialog">
                 <br/><br/>
@@ -100,3 +102,7 @@
         </div>
     </mat-grid-tile>
 </mat-grid-list>
+<mat-form-field *ngIf="code.length != 0" class="full-width">
+    <input matInput readonly placeholder="Wygenerowany kod">
+    <span style="white-space: pre">{{code}}</span>
+</mat-form-field>
