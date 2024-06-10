@@ -12,6 +12,9 @@ import axios from 'axios';
 
 declare var mermaid: any;
 
+/**
+ * Komponent odpowiadajacy za widok dotyczacy generowania diagramu aktywnosci.
+ */
 @Component({
   selector: 'app-activity',
   standalone: true,
@@ -38,6 +41,9 @@ export class ActivityComponent {
   connectionCommentTarget: number = -1;
   code: string = "";
 
+  /***
+   * Inicjalizacja biblioteki mermaid.
+   */
   ngAfterViewInit(): void {
     mermaid.initialize({
       theme: "neutral"
@@ -45,6 +51,9 @@ export class ActivityComponent {
     mermaid.init();
   }
 
+  /***
+   * Metoda uzywana przy wyswietleniu odpowiedniej ikony.
+   */
   setCssClass(element: { iconType: string }) {
     let cssClass: string = "";
     switch (element.iconType) {
@@ -66,6 +75,9 @@ export class ActivityComponent {
     return cssClass;
   }
 
+  /***
+   * Glowna metoda odpowiedzialna za przetworzenie danych w taki sposob, aby mogly zostac przedstawione w formie diagramu aktywnosci.
+   */
   generateDiagramCode(): string {
     let code = "stateDiagram-v2";
     if (this.connections.length != 0) {
@@ -93,6 +105,9 @@ export class ActivityComponent {
     return code;
   }
 
+  /***
+   * Metoda odpowiedzialna za odswiezenie diagramu.
+   */
   async refreshDiagramView() {
     let diagramCode = this.generateDiagramCode();
     const diagramView = await mermaid.render("mermaidid", diagramCode);
@@ -100,22 +115,34 @@ export class ActivityComponent {
     diagramDiv.innerHTML = diagramView.svg;
   }
 
+  /***
+   * Metoda odpowiedzialna za decyzje, czy wyswietlic menu polaczen.
+   */
   showConnectionDialog() {
     if (this.elements.length != 0) {
       this.displayConnectionDialog = !this.displayConnectionDialog;
     }
   }
 
+  /***
+   * Metoda odpowiedzialna za decyzje, czy wyswietlic menu akcji.
+   */
   showActionDialog() {
     this.displayActionDialog = !this.displayActionDialog;
   }
 
+  /***
+   * Metoda odpowiedzialna za decyzje, czy wyswietlic menu listy elementow.
+   */
   showElementsDialog() {
     if (this.elements.length != 0) {
       this.displayElementsDialog = !this.displayElementsDialog;
     }
   }
 
+  /***
+   * Metoda odpowiedzialna za decyzje, czy wyswietlic menu listy polaczen.
+   */
   showConnectionsDialog(removeOnClick: boolean) {
     this.connectionRemoveOnClick = removeOnClick;
     if (this.connections.length != 0) {
@@ -124,6 +151,9 @@ export class ActivityComponent {
     if (this.displayConnectionCommentDialog) this.displayConnectionCommentDialog = !this.displayConnectionCommentDialog;
   }
 
+  /***
+   * Metoda odpowiedzialna za dodanie elementu poczatkowego.
+   */
   appendFirstElement() {
     if (this.elements.some(element => element.type === "first")) return;
     this.elements.push({ id: this.idElement, type: "first", label: "[*]", visible: true });
@@ -131,6 +161,9 @@ export class ActivityComponent {
     this.refreshDiagramView();
   }
 
+  /***
+   * Metoda odpowiedzialna za dodanie elementu akcji.
+   */
   appendActionElement(formText: string) {
     this.elements.push({ id: this.idElement, type: "action", label: formText, visible: true });
     this.idElement++;
@@ -138,6 +171,9 @@ export class ActivityComponent {
     this.actionFormText = "";
   }
 
+  /***
+   * Metoda odpowiedzialna za dodanie elementu warunkowego.
+   */
   appendConditionElement() {
     let conditionName: string = "if_state";
     if (this.numberOfConditions !== 0) {
@@ -151,6 +187,9 @@ export class ActivityComponent {
     this.refreshDiagramView();
   }
 
+  /***
+   * Metoda odpowiedzialna za dodanie elementu koncowego.
+   */
   appendLastElement() {
     if (this.elements.some(element => element.type === "last")) return;
     this.elements.push({ id: this.idElement, type: "last", label: "[*]", visible: true });
@@ -158,12 +197,18 @@ export class ActivityComponent {
     this.refreshDiagramView();
   }
 
+  /***
+   * Metoda odpowiedzialna za dodanie polaczenia miedzy elementami.
+   */
   appendConnection(selectedElements: any) {
     this.connections.push({ id: this.idConnection, src: selectedElements[0].value, trg: selectedElements[1].value });
     this.idConnection++;
     this.refreshDiagramView();
   }
 
+  /***
+   * Metoda odpowiedzialna za dodanie komentarza na polaczeniu miedzy elementami.
+   */
   appendConnectionCommentElement(connection: any) {
     if (typeof connection === "string") {
       this.elements[this.connectionCommentTarget].label += " : " + connection;
@@ -176,6 +221,9 @@ export class ActivityComponent {
     }
   }
 
+  /***
+   * Metoda odpowiedzialna za wyczyszczenie diagramu.
+   */
   clearElements() {
     this.elements = [];
     this.connections = [];
@@ -183,6 +231,9 @@ export class ActivityComponent {
     window.location.reload();
   }
 
+  /***
+   * Metoda odpowiedzialna za usuniecie elementu diagramu.
+   */
   removeElement(element: any) {
     this.connections = this.connections.filter(connection => connection.src === element.id || connection.trg === element.id);
     this.elements = this.elements.filter(elementFromArray => elementFromArray.id != element.id);
@@ -190,12 +241,18 @@ export class ActivityComponent {
     this.refreshDiagramView();
   }
 
+  /***
+   * Metoda odpowiedzialna za usuniecie polaczenia miedzy elementami diagramu.
+   */
   removeConnection(connection: any) {
     this.elements[connection.trg].label = this.elements[connection.trg].label.split(" : ")[0];
     this.connections = this.connections.filter(connectionFromArray => connectionFromArray.id !== connection.id);
     this.refreshDiagramView();
   }
 
+  /***
+   * Metoda odpowiedzialna za wyslanie diagramu do serwera, gdzie zostanie wygenerowany kod.
+   */
   sendElements() {
     if (this.elements.some(element => element.type === "first") && this.elements.some(element => element.type === "last")) {
         axios.post('/api/activity', {
