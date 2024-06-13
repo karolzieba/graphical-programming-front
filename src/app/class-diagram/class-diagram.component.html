@@ -1,0 +1,28 @@
+<mat-grid-list cols="5" rowHeight="85%">
+<div class="diagram-container">
+    <div id="class-diagram"></div>
+    <button mat-button (click)="addClass()">Dodaj Klasę</button>
+    <button mat-button (click)="addRelationship()">Dodaj Relację</button>
+  
+    <div *ngFor="let cls of classes">
+      <h3>{{cls.name}}</h3>
+      <button mat-icon-button (click)="removeClass(cls.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button (click)="addField(cls.id)">
+        <mat-icon>add_circle</mat-icon> Dodaj Pole
+      </button>
+      <button mat-icon-button (click)="addMethod(cls.id)">
+        <mat-icon>add_circle</mat-icon> Dodaj Metodę
+      </button>
+    </div>
+  
+    <div *ngFor="let rel of relationships">
+      <p>{{rel.from}} {{rel.type}} {{rel.to}}</p>
+      <button mat-icon-button (click)="removeRelationship(rel.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+  </mat-grid-list>
+  
