@@ -1,0 +1,43 @@
+<div class="diagram-container">
+  <div id="class-diagram"></div>
+  <button mat-button (click)="addClass()">Dodaj Klasę</button>
+  <button mat-button (click)="addRelationship()">Dodaj Relację</button>
+  <button mat-button (click)="clearDiagram()">Wyczyść Diagram</button>
+  <button mat-button (click)="sendElements()">Wygeneruj kod</button>
+
+  <div *ngFor="let cls of classes" class="class-container">
+    <h3>{{ cls.name }}</h3>
+    <button mat-icon-button (click)="removeClass(cls.id)">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button (click)="addField(cls.id)">
+      <mat-icon>add_circle</mat-icon> Dodaj Pole
+    </button>
+    <button mat-icon-button (click)="addMethod(cls.id)">
+      <mat-icon>add_circle</mat-icon> Dodaj Metodę
+    </button>
+  </div>
+
+  <div *ngFor="let rel of relationships" class="relationship-container">
+    <p>{{ rel.from }} {{ rel.type }} {{ rel.to }}</p>
+    <button mat-icon-button (click)="removeRelationship(rel.id)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+
+  <mat-form-field *ngIf="code.length != 0" class="full-width">
+    <input matInput readonly placeholder="Wygenerowany kod">
+    <span style="white-space: pre">{{ code }}</span>
+  </mat-form-field>
+
+  <div *ngIf="displayAddClassDialog" class="dialog">
+    <form (ngSubmit)="submitNewClass()">
+      <mat-form-field>
+        <mat-label>Nazwa Klasy</mat-label>
+        <input matInput [(ngModel)]="newClassName" name="newClassName">
+      </mat-form-field>
+      <button mat-raised-button type="submit">Dodaj</button>
+      <button mat-button (click)="displayAddClassDialog = false">Anuluj</button>
+    </form>
+  </div>
+</div>
